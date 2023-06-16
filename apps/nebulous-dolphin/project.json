@@ -1,0 +1,74 @@
+{
+  "name": "nebulous-dolphin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nebulous-dolphin/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/nebulous-dolphin",
+        "main": "apps/nebulous-dolphin/src/main.ts",
+        "tsConfig": "apps/nebulous-dolphin/tsconfig.app.json",
+        "assets": [
+          "apps/nebulous-dolphin/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/nebulous-dolphin/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nebulous-dolphin:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nebulous-dolphin:build:development"
+        },
+        "production": {
+          "buildTarget": "nebulous-dolphin:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/nebulous-dolphin/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/nebulous-dolphin/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
